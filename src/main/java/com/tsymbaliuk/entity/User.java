@@ -11,8 +11,6 @@ public class User {
     @Id
     @GeneratedValue
     private Integer id;
-    @ManyToMany
-    private List<Role> roles;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Blog> blogs;
@@ -22,6 +20,20 @@ public class User {
     private String email;
 
     private String password;
+
+    private boolean enabled;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @ManyToMany()
+    @JoinTable
+    private List<Role> roles;
 
     public Integer getId() {
         return id;

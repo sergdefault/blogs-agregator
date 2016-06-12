@@ -2,16 +2,20 @@ package com.tsymbaliuk.service;
 
 import com.tsymbaliuk.entity.Blog;
 import com.tsymbaliuk.entity.Item;
+import com.tsymbaliuk.entity.Role;
 import com.tsymbaliuk.entity.User;
 import com.tsymbaliuk.repository.BlogRepository;
 import com.tsymbaliuk.repository.ItemRepository;
+import com.tsymbaliuk.repository.RoleRepository;
 import com.tsymbaliuk.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +33,9 @@ public class UserService {
 
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     public List<User> findAll(){
         return userRepository.findAll();
@@ -50,7 +57,20 @@ public class UserService {
         return user;
     }
 
+    public User findOneWithBlogs(String name) {
+        User user = userRepository.findByName(name);
+        return findOneWithBlogs(user.getId());
+    }
+
     public void save(User user) {
+        user.setEnabled(true);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(user.getPassword()));
+
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(roleRepository.findByName("ROLE_USER"));
+        user.setRoles(roles);
+
         userRepository.save(user);
     }
 }
