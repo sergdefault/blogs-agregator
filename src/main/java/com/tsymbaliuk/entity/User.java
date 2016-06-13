@@ -1,6 +1,9 @@
 package com.tsymbaliuk.entity;
 
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -12,13 +15,17 @@ public class User {
     @GeneratedValue
     private Integer id;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Blog> blogs;
 
+    @Size(min = 3, message = "name must be at least 3 characters!")
     private String name;
 
+    @Size(min = 1, message = "invalid email!")
+    @Email
     private String email;
 
+    @Size(min = 3, message = "name must be at least 3 characters!")
     private String password;
 
     private boolean enabled;

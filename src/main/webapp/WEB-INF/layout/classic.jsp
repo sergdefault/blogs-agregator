@@ -24,6 +24,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
+
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
             integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
@@ -63,7 +65,7 @@
 </security:authorize>
 
 <security:authorize access="isAuthenticated()">
-    <li class="${current == 'users' ? 'active' : ''}"><a href="<spring:url value="/account.html"/>">My account</a></li>
+    <li class="${current == 'account' ? 'active' : ''}"><a href="<spring:url value="/account.html"/>">My account</a></li>
     <li><a href="<spring:url value="/logout"/>">Logout</a></li>
 </security:authorize>
 
