@@ -1,5 +1,6 @@
 package com.tsymbaliuk.entity;
 
+import annotation.UniqueUsername;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
@@ -19,6 +20,8 @@ public class User {
     private List<Blog> blogs;
 
     @Size(min = 3, message = "name must be at least 3 characters!")
+    @Column(unique = true)
+    @UniqueUsername(message = "Such username already exist")
     private String name;
 
     @Size(min = 1, message = "invalid email!")

@@ -1,26 +1,49 @@
 package com.tsymbaliuk.entity;
 
-import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by Цымбалюк Сергей on 02.06.2016.
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Type;
+
 @Entity
 public class Item {
+
     @Id
     @GeneratedValue
     private Integer id;
+
+    @Column(length = 1000)
     private String title;
-    private String discription;
+
+    @Lob
+    @Type(type = "org.hibernate.type.StringClobType")
+    @Column(length = Integer.MAX_VALUE)
+    private String description;
 
     @Column(name = "published_date")
     private Date publishedDate;
+
+    @Column(length = 1000)
     private String link;
 
     @ManyToOne
     @JoinColumn(name = "blog_id")
     private Blog blog;
+
+    public Blog getBlog() {
+        return blog;
+    }
+
+    public void setBlog(Blog blog) {
+        this.blog = blog;
+    }
 
     public Integer getId() {
         return id;
@@ -38,12 +61,12 @@ public class Item {
         this.title = title;
     }
 
-    public String getDiscription() {
-        return discription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getPublishedDate() {
@@ -62,11 +85,4 @@ public class Item {
         this.link = link;
     }
 
-    public Blog getBlog() {
-        return blog;
-    }
-
-    public void setBlog(Blog blog) {
-        this.blog = blog;
-    }
 }
